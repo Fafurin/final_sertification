@@ -10,8 +10,19 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws SQLException {
 
-        // подключение к бд
-        MySqlConnector connector = new MySqlConnector();
+        System.out.println("Введите перез пробел пользователья MySQL и пароль");
+
+        // создаем сканер
+        Scanner scan = new Scanner(System.in);
+
+        // получаем строку от пользователя
+        String userData = scan.nextLine();
+
+        // записываем пользователя и пароль в массив
+        String[] words = userData.split(" ");
+
+        // подключаемся к бд используя полученные данные от пользователя
+        MySqlConnector connector = new MySqlConnector(words[0], words[1]);
 
         // объект миграции бд
         Migration migration = new Migration(connector);
@@ -22,14 +33,11 @@ public class Main {
         // объект для создания животных
         AnimalFactory factory = new AnimalFactory();
 
-        // создаем сканер
-        Scanner scan = new Scanner(System.in);
+        // раскомментируйте нижнюю строку для создания таблиц в бд
+         migration.up();
 
-        // удаляем таблицы из бд
+        // раскомментируйте нижнюю строку для удаления таблиц из бд
         // migration.down();
-
-        // создаем таблицы в бд
-        // migration.up();
 
         System.out.println("Питомник. Ver. 0.1");
         System.out.println("Для добавления животного в базу питомника наберите ");
